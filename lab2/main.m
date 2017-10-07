@@ -12,9 +12,7 @@ run('Example1.m')
 
 run('Example2.m')
 
-% Question 7
-% The difference image is as large the original image. The interpolation
-% errors are distributed throughout the image.
 
-% Question 9
-% Because log(0) is undefined.
+
+%% Question 10
+
