@@ -1,3 +1,5 @@
+%% TSBB08 - Lab 2
+Im = double(imread('lab2files/baboon.tif')); % load image
 T1 = [1 -1/3; 0 1]; % assign shear matrix1
 T2 = [1 -1; 0 1]; % assign shear matrix2
 

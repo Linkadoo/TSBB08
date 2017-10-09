@@ -9,7 +9,7 @@ RotateIm = zeros(rows, cols);
 center_pos = [cols/2; rows/2];
 for xg = 1:cols
     for yg = 1:rows
-        xyff = inv(T)*([xg;yg]-center_pos)+center_pos; %�ndra s� att vi roterar kring centrum av bilden
+        xyff = inv(T)*([xg-cols/2;yg-rows/2])+center_pos; %�ndra s� att vi roterar kring centrum av bilden
         xff  = xyff(1);
         yff  = xyff(2);
         
@@ -50,50 +50,50 @@ for xg = 1:cols
                 if (xff<cols-1 & yff<rows-1 & xff>2 & yff>2)
                     yf=floor(yff);
                     xf=floor(xff);
-
+                    
                     dxf=xff-xf;
                     dxff=dxf+1;
                     dxc=1-dxf;
                     dxcc=1+dxc;
-
+                    
                     dyf=yff-yf;
-                    dyff=dyf+1;                    
-                    dyc=1-dyf;                    
+                    dyff=dyf+1;
+                    dyc=1-dyf;
                     dycc=dyc+1;
-
+                    
                     firstRow =  h(dxff)*h(dyff)*Im(yf-1,xf-1)+...
-                    h(dxff)*h(dyf)* Im(yf,xf-1)+...
-                    h(dxff)*h(dyc)* Im(yf+1,xf-1)+...
-                    h(dxff)*h(dycc)*Im(yf+2,xf-1);
-
+                        h(dxff)*h(dyf)* Im(yf,xf-1)+...
+                        h(dxff)*h(dyc)* Im(yf+1,xf-1)+...
+                        h(dxff)*h(dycc)*Im(yf+2,xf-1);
+                    
                     secondRow = h(dxf)*h(dyff)* Im(yf-1,xf)+...
-                    h(dxf)*h(dyf)*  Im(yf,xf)+...
-                    h(dxf)*h(dyc)*  Im(yf+1,xf)+...
-                    h(dxf)*h(dycc)* Im(yf+2,xf);
-
+                        h(dxf)*h(dyf)*  Im(yf,xf)+...
+                        h(dxf)*h(dyc)*  Im(yf+1,xf)+...
+                        h(dxf)*h(dycc)* Im(yf+2,xf);
+                    
                     thirdRow =  h(dxc)*h(dyff)* Im(yf-1,xf+1)+...
-                    h(dxc)*h(dyf)*  Im(yf,xf+1)+...
-                    h(dxc)*h(dyc)*  Im(yf+1,xf+1)+...
-                    h(dxc)*h(dycc)* Im(yf+2,xf+1);
-
+                        h(dxc)*h(dyf)*  Im(yf,xf+1)+...
+                        h(dxc)*h(dyc)*  Im(yf+1,xf+1)+...
+                        h(dxc)*h(dycc)* Im(yf+2,xf+1);
+                    
                     fourthRow = h(dxcc)*h(dyff)*Im(yf-1,xf+2)+...
-                    h(dxcc)*h(dyf)* Im(yf,xf+2)+...
-                    h(dxcc)*h(dyc)* Im(yf+1,xf+2)+...
-                    h(dxcc)*h(dycc)*Im(yf+2,xf+2);
-
-                    rotIm(yg,xg) = firstRow+secondRow+thirdRow+fourthRow;
-
+                        h(dxcc)*h(dyf)* Im(yf,xf+2)+...
+                        h(dxcc)*h(dyc)* Im(yf+1,xf+2)+...
+                        h(dxcc)*h(dycc)*Im(yf+2,xf+2);
+                    
+                    RotateIm(yg,xg) = firstRow+secondRow+thirdRow+fourthRow;
+                    
                 elseif (xff<cols & yff<rows & xff>1 & yff>1)
-                    xf = floor(xff);
-                    yf = floor(yff);
+                    
+                    yf=floor(yff);
+                    xf=floor(xff);
                     xe = xff-xf;
                     ye = yff-yf;
-                   
-                    RotateIm(yg,xg) = ...
-                        Im(yf,xf)*bicubic4(xe)*bicubic4(ye)+ ...
-                        Im(yf,xf+1)*bicubic4(1-xe)*bicubic4(ye)+ ...
-                      Im(yf+1,xf)*bicubic4(xe)*bicubic4(1-ye)+ ...
-                        Im(yf+1,xf+1)*bicubic4(1-xe)*bicubic4(1-ye);
+                    RotateIm(yg,xg) = Im(yf,xf)*bicubic4(xe)*bicubic4(ye)+ ...
+                                      Im(yf,xf+1)*bicubic4(1-xe)*bicubic4(ye)+ ...
+                                      Im(yf+1,xf)*bicubic4(xe)*bicubic4(1-ye)+ ...
+                                      Im(yf+1,xf+1)*bicubic4(1-xe)*bicubic4(1-ye);
+                    
                 end
             otherwise
             error('Unknown interpolation method');
